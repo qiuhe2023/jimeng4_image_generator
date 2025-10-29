@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>即梦4.0 图片生成工具</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1 class="logo">
+                <i class="fas fa-image"></i> 即梦4.0 图片生成工具
+            </h1>
+            <p class="subtitle">基于火山引擎API，轻松创建高质量图片</p>
+        </header>
+
+        <main class="main-content">
+            <section class="form-section">
+                <div class="card">
+                    <h2 class="section-title">生成图片</h2>
+                    <form id="generate-form">
+                        <div class="form-group">
+                            <label for="prompt"><i class="fas fa-pencil-alt"></i> 提示词</label>
+                            <textarea id="prompt" name="prompt" rows="4" placeholder="描述您想要生成的图片，例如：'一只可爱的猫咪在草地上玩耍，阳光明媚，高质量，细节丰富'" required></textarea>
+                            <small class="hint">越详细的描述会得到越符合预期的结果</small>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="size"><i class="fas fa-expand-arrows-alt"></i> 尺寸</label>
+                                <select id="size" name="size" required>
+                                    <option value="1024x1024">1024x1024 (方形)</option>
+                                    <option value="1792x1024">1792x1024 (横向)</option>
+                                    <option value="1024x1792">1024x1792 (纵向)</option>
+                                    <option value="2048x2048" selected>2048x2048 (高清方形)</option>
+                                    <option value="2560x1440">2560x1440 (高清横向)</option>
+                                    <option value="1440x2560">1440x2560 (高清纵向)</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="count"><i class="fas fa-copy"></i> 数量</label>
+                                <input type="number" id="count" name="count" min="1" max="10" value="1" required>
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="scale"><i class="fas fa-sliders-h"></i> 文本影响程度</label>
+                                <input type="range" id="scale" name="scale" min="0" max="1" step="0.1" value="0.5">
+                                <span id="scale-value">0.5</span>
+                            </div>
+
+                            <div class="form-group">
+                                <label for="seed"><i class="fas fa-random"></i> 随机种子</label>
+                                <input type="number" id="seed" name="seed" value="-1" placeholder="-1表示随机">
+                            </div>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <label>
+                                <input type="checkbox" id="no_watermark" name="no_watermark">
+                                <span>不添加水印</span>
+                            </label>
+                        </div>
+
+                        <div class="button-group">
+                            <button type="submit" id="generate-btn" class="btn btn-primary">
+                                <i class="fas fa-magic"></i> 生成图片
+                            </button>
+                            <button type="button" id="clear-btn" class="btn btn-secondary">
+                                <i class="fas fa-times"></i> 清空
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <section class="status-section">
+                <div id="status-message" class="status-message hidden">
+                    <div class="status-icon"></div>
+                    <div class="status-content">
+                        <h3 id="status-title">处理中...</h3>
+                        <p id="status-text">正在生成图片，请稍候...</p>
+                        <div class="progress-container">
+                            <div id="progress-bar" class="progress-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="results-section">
+                <h2 class="section-title">
+                    <i class="fas fa-images"></i> 生成结果
+                    <button type="button" id="load-history-btn" class="btn btn-sm btn-outline">
+                        <i class="fas fa-history"></i> 查看历史
+                    </button>
+                </h2>
+                <div id="results-container" class="results-container">
+                    <div class="empty-state">
+                        <i class="fas fa-image"></i>
+                        <p>生成的图片将显示在这里</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="history-section hidden">
+                <h2 class="section-title">
+                    <i class="fas fa-history"></i> 历史记录
+                    <button type="button" id="close-history-btn" class="btn btn-sm btn-outline">
+                        <i class="fas fa-times"></i> 关闭
+                    </button>
+                </h2>
+                <div id="history-container" class="history-container">
+                    <div class="empty-state">
+                        <i class="fas fa-clock"></i>
+                        <p>加载历史记录中...</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="footer">
+            <p>&copy; 2025 即梦4.0 图片生成工具 - 基于火山引擎API</p>
+            <div class="footer-links">
+                <a href="#" target="_blank"><i class="fab fa-github"></i> GitHub</a>
+                <a href="#" target="_blank"><i class="fas fa-book"></i> 使用文档</a>
+            </div>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.4.0/axios.min.js"></script>
+    <script src="/static/script.js"></script>
+</body>
+</html>
